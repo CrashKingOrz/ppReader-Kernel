@@ -1,9 +1,11 @@
 import time
 import numpy as np
+import os
 import math
 import cv2
 import mediapipe as mp
 from mode_processor import ModeProcessor
+
 
 # 识别控制类
 class VirtualFingerReader:
@@ -41,7 +43,9 @@ class VirtualFingerReader:
 
         fps = cap.get(cv2.CAP_PROP_FPS)
         fps = 18
-        videoWriter = cv2.VideoWriter('./record/out-' + str(time.time()) + '.mp4', cv2.VideoWriter_fourcc(*'H264'), fps,
+        video_save_dir = './record'
+        os.makedirs(str(video_save_dir), exist_ok=True)
+        videoWriter = cv2.VideoWriter(video_save_dir + '/out-' + str(time.time()) + '.mp4', cv2.VideoWriter_fourcc(*'H264'), fps,
                                       (resize_w, resize_h))
 
         with self.mp_hands.Hands(min_detection_confidence=0.7,
@@ -51,13 +55,15 @@ class VirtualFingerReader:
 
                 # 初始化矩形
                 success, self.image = cap.read()
+
+                if not success:
+                    print("空帧.")
+                    continue
+
                 self.image = cv2.resize(self.image, (resize_w, resize_h))
 
                 # 需要根据镜头位置来调整
                 # self.image = cv2.rotate( self.image, cv2.ROTATE_180)
-                if not success:
-                    print("空帧.")
-                    continue
 
                 # 提高性能
                 self.image.flags.writeable = False
@@ -70,6 +76,8 @@ class VirtualFingerReader:
 
                 self.image.flags.writeable = True
                 self.image = cv2.cvtColor(self.image, cv2.COLOR_RGB2BGR)
+
+                draw_info.voice_broadcast()  # 语音播报
 
                 # 保存缩略图
                 if isinstance(draw_info.last_thumb_img, np.ndarray):
@@ -179,6 +187,7 @@ class VirtualFingerReader:
 
                 # 显示画面
                 # self.image = cv2.resize(self.image, (resize_w//2, resize_h//2))
+                cv2.namedWindow('virtual reader', cv2.WINDOW_FREERATIO)
                 cv2.imshow('virtual reader', self.image)
                 videoWriter.write(self.image)
                 if cv2.waitKey(5) & 0xFF == 27:
