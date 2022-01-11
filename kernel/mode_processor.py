@@ -1,7 +1,5 @@
 import cv2
-from PIL import Image, ImageDraw, ImageFont
 import numpy as np
-import mediapipe as mp
 import time
 import math
 from info_generator import InfoGenerator
@@ -54,6 +52,12 @@ class ModeProcessor:
 
     # 生成右上角缩略图
     def generate_thumbnail(self, raw_img, frame):
+        """
+
+        @param raw_img:
+        @param frame:
+        @return:
+        """
         # 识别
         if self.last_detect_res['detection'] == None:
             im, results = self.pp_dete.detect_img(raw_img)
@@ -124,6 +128,16 @@ class ModeProcessor:
 
     # 单手模式
     def single_mode(self, x_distance, y_distance, handedness, finger_cord, frame, frame_copy):
+        """
+
+        @param x_distance:
+        @param y_distance:
+        @param handedness:
+        @param finger_cord:
+        @param frame:
+        @param frame_copy:
+        @return:
+        """
         self.right_hand_circle_list.append((finger_cord[0], finger_cord[1]))
         for i in range(len(self.right_hand_circle_list) - 1):
             # 连续画线
@@ -137,7 +151,7 @@ class ModeProcessor:
         min_y = min(self.right_hand_circle_list, key=lambda i: i[1])[1]
 
         frame = cv2.rectangle(frame, (min_x, min_y), (max_x, max_y), (0, 255, 0), 2)
-        frame = self.generator.draw_arc(
+        frame = self.generator.draw_ring(
             frame, finger_cord[0], finger_cord[1], arc_radius=50, end=360, color=self.handedness_color[handedness],
             width=15)
         # 未移动
@@ -156,6 +170,14 @@ class ModeProcessor:
 
     # 检查食指停留是否超过0.3秒，超过即画图，左右手各自绘制
     def check_index_finger_move(self, handedness, finger_cord, frame, frame_copy):
+        """
+
+        @param handedness:
+        @param finger_cord:
+        @param frame:
+        @param frame_copy:
+        @return:
+        """
         # 计算距离
         x_distance = abs(finger_cord[0] - self.last_finger_cord_x[handedness])
         y_distance = abs(finger_cord[1] - self.last_finger_cord_y[handedness])
@@ -175,11 +197,11 @@ class ModeProcessor:
                     # 画环形图，每隔0.01秒增大5度
                     arc_degree = 5 * ((time.time() - self.stop_time[handedness] - self.activate_duration) // 0.01)
                     if arc_degree <= 360:
-                        frame = self.generator.draw_arc(
+                        frame = self.generator.draw_ring(
                             frame, finger_cord[0], finger_cord[1], arc_radius=50, end=arc_degree,
                             color=self.handedness_color[handedness], width=15)
                     else:
-                        frame = self.generator.draw_arc(
+                        frame = self.generator.draw_ring(
                             frame, finger_cord[0], finger_cord[1], arc_radius=50, end=360,
                             color=self.handedness_color[handedness], width=15)
                         # 让度数为360

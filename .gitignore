@@ -3,3 +3,5 @@
 kernel/baidu_pp_detection/models/
 kernel/baidu_pp_ocr/models/
 *.dll
+__pycache__
+kernel/__pycache__
