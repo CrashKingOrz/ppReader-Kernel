@@ -63,7 +63,8 @@ class ModeProcessor:
 
     def generate_thumbnail(self, raw_img, frame):
         """
-        Generate the thumbnail in the upper right corner
+        Generate the thumbnail in the upper right corner.
+
         @param raw_img: raw image in the rectangle
         @param frame: original frame image
         @return: image with the thumbnail
@@ -171,6 +172,7 @@ class ModeProcessor:
     def single_mode(self, x_distance, y_distance, handedness, finger_cord, frame, frame_copy):
         """
         Single mode implement. It will generate the image shown on the screen.
+
         @param x_distance: the x-coordinate distance of the movement
         @param y_distance: the y-coordinate distance of the movement
         @param handedness: 'Right' or 'Left', there can only be 'Right'
@@ -213,6 +215,7 @@ class ModeProcessor:
     def check_index_finger_move(self, handedness, finger_cord, frame, frame_copy):
         """
         Check whether the index finger stays longer than 0.3 seconds.
+
         If it stays longer, left and right hand draw separately
         @param handedness: 'Right' or 'Left'
         @param finger_cord: coordinates of the key point on index finger
