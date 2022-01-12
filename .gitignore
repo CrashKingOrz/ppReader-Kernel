@@ -6,3 +6,4 @@ kernel/baidu_pp_ocr/models/
 __pycache__
 kernel/__pycache__
 kernel/record
+*.pyc
