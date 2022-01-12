@@ -4,6 +4,8 @@ import time
 import math
 from info_generator import InfoGenerator
 from baidu_pp_wrapper import Baidu_PP_Detection, Baidu_PP_OCR
+import pyttsx3
+engine = pyttsx3.init()
 
 
 class ModeProcessor:
@@ -48,6 +50,14 @@ class ModeProcessor:
         # 上次检测结果
         self.last_detect_res = {'detection': None, 'ocr': '无'}
 
+        # 上次detect结果
+        self.pre_detect_en = ''
+        self.detect_speaker = False
+
+        # 上次ocr结果
+        self.pre_ocr_text = ''
+        self.ocr_speaker = False
+
         self.generator = InfoGenerator()
 
     # 生成右上角缩略图
@@ -67,6 +77,12 @@ class ModeProcessor:
                 label_en = self.pp_dete.labels_en[label_id]
                 label_zh = self.pp_dete.labels_zh[label_id - 1]
                 self.last_detect_res['detection'] = [label_zh, label_en]
+
+                # 需要播报语音
+                if label_en != self.pre_detect_en:
+                    self.detect_speaker = True
+                    self.pre_detect_en = label_en
+
             else:
                 self.last_detect_res['detection'] = ['无', 'None']
         # 整图
@@ -84,7 +100,9 @@ class ModeProcessor:
 
         # 生成label
         x, y, w, h = (frame_width - thumb_img_w), thumb_img_h, thumb_img_w, 50
+
         # Putting the image back to its position
+        frame = np.array(frame)
         frame[y:y + h, x:x + w] = self.generator.generate_label_area(
             '{label_zh} {label_en}'.format(label_zh=self.last_detect_res['detection'][0],
                                            label_en=self.last_detect_res['detection'][1]), x, y, w, h, frame)
@@ -116,8 +134,31 @@ class ModeProcessor:
 
             y, h = (y + h + 20), (32 * line_num)
             frame[y:y + h, x:x + w] = self.generator.generate_ocr_text_area(ocr_text, line_text_num, line_num, x, y, w, h, frame)
+
+            # 需要播报语音
+            if ocr_text != self.pre_ocr_text:
+                self.pre_ocr_text = ocr_text
+                self.ocr_speaker = True
+
         self.last_thumb_img = thumb_img
         return frame
+
+    # 语音播报
+    def voice_broadcast(self):
+        # 重置
+        if self.hand_mode == 'None':
+            self.pre_detect_en = 'None'
+            self.pre_ocr_text = ''
+
+        if self.detect_speaker or self.ocr_speaker:
+            self.detect_speaker = False
+            self.ocr_speaker = False
+            if self.last_detect_res['detection'][1] != 'None':
+                engine.say(self.last_detect_res['detection'][0])
+                engine.say(self.last_detect_res['detection'][1])
+            if self.last_detect_res['ocr'] != '' and self.last_detect_res['ocr'] != 'checked_no':
+                engine.say(self.last_detect_res['ocr'])
+            engine.runAndWait()
 
     # 清除单手模式
     def clear_single_mode(self):
@@ -217,6 +258,7 @@ class ModeProcessor:
                             rect_r = (self.last_finger_cord_x['Right'], self.last_finger_cord_y['Right'])
                             # 外框框
                             frame = cv2.rectangle(frame, rect_l, rect_r, (0, 255, 0), 2)
+                            frame = np.array(frame)
                             # 框框label
                             if self.last_detect_res['detection']:
                                 # 生成label
@@ -231,8 +273,19 @@ class ModeProcessor:
                                 # 初始化识别结果
                                 self.last_detect_res = {'detection': None, 'ocr': '无'}
                                 # 传给缩略图
-                                raw_img = frame_copy[self.last_finger_cord_y['Left']:self.last_finger_cord_y['Right'],
-                                          self.last_finger_cord_x['Left']:self.last_finger_cord_x['Right'], ]
+                                if self.last_finger_cord_y['Left'] < self.last_finger_cord_y['Right']:
+                                    y_min = self.last_finger_cord_y['Left']
+                                    y_max = self.last_finger_cord_y['Right']
+                                else:
+                                    y_min = self.last_finger_cord_y['Right']
+                                    y_max = self.last_finger_cord_y['Left']
+                                if self.last_finger_cord_x['Left'] < self.last_finger_cord_x['Right']:
+                                    x_min = self.last_finger_cord_x['Left']
+                                    x_max = self.last_finger_cord_x['Right']
+                                else:
+                                    x_min = self.last_finger_cord_x['Right']
+                                    x_max = self.last_finger_cord_x['Left']
+                                raw_img = frame_copy[y_min:y_max, x_min:x_max, ]
                                 frame = self.generate_thumbnail(raw_img, frame)
 
                             self.hand_mode = 'double'
