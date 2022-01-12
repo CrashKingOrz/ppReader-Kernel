@@ -1,30 +1,27 @@
 import sys
 import os
+import numpy as np
 import cv2
-
 # detection related package
 sys.path.append(os.path.join("baidu_pp_detection", "python"))
+# OCR related package
+sys.path.append(os.path.join("baidu_pp_ocr", "tools", "infer"))
+sys.path.append(os.path.join("baidu_pp_ocr"))
+
+import utility as utility
 
 from infer import Config, Detector
 from visualize import visualize_box_mask, lmk2out
-import numpy as np
-
-
-# OCR related package
-sys.path.append(os.path.join("baidu_pp_ocr", "tools", "infer"))
-sys.path.append(os.path.join("baidu_pp_ocr")
-
-import utility as utility
 from predict_system import TextSystem
 from ppocr.utils.logging import get_logger
 logger = get_logger()
 
-
+# Todo: add choosing device GPU or CPU
 class Baidu_PP_Detection:
-# Object recognition    
+    # Object recognition
     def __init__(self):
         """
-        Initialize detection models
+        Initialize detection models.
 
         """
         self.model_dir = './baidu_pp_detection/models/cascade_rcnn_dcn_r101_vd_fpn_gen_server_side'
@@ -48,7 +45,7 @@ class Baidu_PP_Detection:
       
     def get_label_zh(self):
         """
-        Obtain the corresponding Chinese label
+        Obtain the corresponding Chinese label.
 
         @return back_list: Chinese label list
         """
@@ -61,7 +58,7 @@ class Baidu_PP_Detection:
 
     def detect_img(self, img):
         """
-        Detect the image
+        Detect the image.
 
         @param img: Represents the three-dimensional matrix of the image
         @return im: Represents the three-dimensional matrix of the image with boxes and label
@@ -108,10 +105,10 @@ class Baidu_PP_Detection:
 
 
 class Baidu_PP_OCR:
-# OCR   
+    # OCR
     def __init__(self):
         """
-        Initialize ocr model
+        Initialize ocr model.
 
         """   
         args = utility.parse_args()
@@ -133,7 +130,7 @@ class Baidu_PP_OCR:
     
     def ocr_image(self, img):
         """
-        Read image text
+        Read image text.
 
         @param img: Represents the three-dimensional matrix of the image
         @return src_im:  Represents the three-dimensional matrix of the image with boxes and textlabel

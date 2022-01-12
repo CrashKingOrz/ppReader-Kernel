@@ -26,7 +26,8 @@ class InfoGenerator:
     def draw_ring(self, frame, point_x, point_y, arc_radius=150, start=0, end=360, color=(255, 0, 255), width=20):
         """
         Generate a ring
-        @param frame: a video frame or a image
+        @param frame: a video frame or a image.
+
         @param point_x: the x-coordinate of the center of the ring
         @param point_y: the y-coordinate of the center of the ring
         @param arc_radius: ring radius
@@ -46,22 +47,23 @@ class InfoGenerator:
 
     def generate_ocr_text_area(self, ocr_text, line_text_num, line_num, x, y, w, h, frame):
         """
+        Generate OCR text display area in the upper right corner.
 
-        @param ocr_text:
-        @param line_text_num:
-        @param line_num:
-        @param x:
-        @param y:
-        @param w:
-        @param h:
-        @param frame:
-        @return:
+        @param ocr_text: the ocr text need to display
+        @param line_text_num: the number of characters displayed in a line
+        @param line_num: the text line numbers
+        @param x: the x-coordinate of the ocr text area
+        @param y: the y-coordinate of the ocr text area
+        @param w: the width of the ocr text area
+        @param h: the height of the ocr text area
+        @param frame: a input image array
+        @return: the ocr text area with the ocr text
         """
         # First we crop the sub-rect from the image
         sub_img = frame[y: y + h, x: x + w]
-        green_rect = np.ones(sub_img.shape, dtype=np.uint8) * 0
+        black_rect = np.ones(sub_img.shape, dtype=np.uint8) * 0
 
-        res = cv2.addWeighted(sub_img, 0.5, green_rect, 0.5, 1.0)
+        res = cv2.addWeighted(sub_img, 0.5, black_rect, 0.5, 1.0)
         for i in range(line_num):
             text = ocr_text[(i * line_text_num): (i + 1) * line_text_num]
             res = self.add_text(res, text, (10, 30 * i + 10), text_color=(255, 255, 255), text_size=18)
@@ -69,20 +71,21 @@ class InfoGenerator:
 
     def generate_label_area(self, text, x, y, w, h, frame):
         """
+        Generates a label text image area that identifies the category.
 
-        @param text:
-        @param x:
-        @param y:
-        @param w:
-        @param h:
-        @param frame:
-        @return:
+        @param text: the input label text
+        @param x: the x-coordinate of the label text area
+        @param y: the y-coordinate of the label text area
+        @param w: the width of the label text area
+        @param h: the height of the label text area
+        @param frame: a input image array
+        @return: the label text area with the label text include Chinese and English
         """
         # First we crop the sub-rect from the image
         sub_img = frame[y: y + h, x: x + w]
-        green_rect = np.ones(sub_img.shape, dtype=np.uint8) * 0
+        black_rect = np.ones(sub_img.shape, dtype=np.uint8) * 0
 
-        res = cv2.addWeighted(sub_img, 0.5, green_rect, 0.5, 1.0)
+        res = cv2.addWeighted(sub_img, 0.5, black_rect, 0.5, 1.0)
         res = self.add_text(res, text, (10, 10), text_color=(255, 255, 255), text_size=30)
         return res
 
