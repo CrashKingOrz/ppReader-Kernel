@@ -3,7 +3,7 @@ import numpy as np
 import time
 import math
 from info_generator import InfoGenerator
-from baidu_pp_wrapper import Baidu_PP_Detection, Baidu_PP_OCR
+from kernel.model.baidu_pp_wrapper import Baidu_PP_Detection, Baidu_PP_OCR
 import pyttsx3
 engine = pyttsx3.init()
 
