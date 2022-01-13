@@ -19,7 +19,7 @@ logger = get_logger()
 # Todo: add choosing device GPU or CPU
 class Baidu_PP_Detection:
     # Object recognition
-    def __init__(self):
+    def __init__(self, device = "GPU"):
         """
         Initialize detection models.
 
@@ -30,9 +30,8 @@ class Baidu_PP_Detection:
         self.labels_zh = self.get_label_zh()
         self.ob_detector = Detector(
             config,
-            self.model_dir,
-            # device="GPU", 
-            device="CPU",
+            self.model_dir, 
+            device0 = device,
             run_mode='fluid',
             trt_calib_mode=False)
 
@@ -106,7 +105,7 @@ class Baidu_PP_Detection:
 
 class Baidu_PP_OCR:
     # OCR
-    def __init__(self):
+    def __init__(self, device = True):
         """
         Initialize ocr model.
 
@@ -119,7 +118,7 @@ class Baidu_PP_OCR:
         self.text_sys = TextSystem(args)
 
         # gpu or cpu
-        args.use_gpu = False
+        args.use_gpu = device
 
         # Warm up ocr model
         if 1:
