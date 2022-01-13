@@ -4,7 +4,7 @@ import os
 import math
 import cv2
 import mediapipe as mp
-from mode_processor import ModeProcessor
+from kernel.process.mode_processor import ModeProcessor
 
 
 # 识别控制类
