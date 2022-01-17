@@ -1,0 +1,10 @@
+.idea/
+.DS_Store
+kernel/model/baidu_pp_detection/models/
+kernel/model/baidu_pp_ocr/models/
+*.dll
+__pycache__
+kernel/__pycache__
+kernel/record
+*.pyc
+kernel/test/record/
