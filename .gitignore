@@ -5,6 +5,6 @@ kernel/model/baidu_pp_ocr/models/
 *.dll
 __pycache__
 kernel/__pycache__
-kernel/record
+kernel/test/*.jpg
 *.pyc
 kernel/test/record/

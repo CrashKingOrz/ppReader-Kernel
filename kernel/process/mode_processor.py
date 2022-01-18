@@ -6,22 +6,8 @@ import sys
 sys.path.insert(0, "../")
 from utils.info_generator import InfoGenerator
 from model.baidu_pp_wrapper import PpDetection, PpOCR
-from multiprocessing import Process, Manager
-import pyttsx3
-engine = pyttsx3.init()
-
-
-def speak(text):
-    """
-    Speak text.
-
-    @param text: input text message
-    """
-    while True:
-        if len(text):
-            engine.say(text[-1])
-            text.pop()
-            engine.runAndWait()
+# from multiprocessing import Process, Manager
+# from media.audio_processor import speak
 
 
 class ModeProcessor:
@@ -57,11 +43,11 @@ class ModeProcessor:
         self.last_thumb_img = None
 
         # import the OCR class
-        self.pp_ocr = PpOCR()
+        self.pp_ocr = PpOCR(device="CPU")
         # ocr.test_ocr()
 
         # import the detection class
-        self.pp_dete = PpDetection()
+        self.pp_dete = PpDetection(device="CPU")
 
         # last results
         self.last_detect_res = {'detection': None, 'ocr': '无'}
@@ -72,15 +58,16 @@ class ModeProcessor:
 
         # the action in single mode
         self.draw_line = False
-        # fix the thumnail on the corner
+        # fix the thumbnail on the corner
         self.thumbnail_lock = False
 
         # a process to deal with reader
-        self.dic = Manager().list()
-        self.p = Process(target=speak, args=(self.dic,))
+        # self.dic = Manager().list()
+        # self.p = Process(target=speak, args=(self.dic,))
 
         self.generator = InfoGenerator()
 
+    # Todo: This funtion need to rewrite by using pp_reader's function add move this function to a better file position
     def generate_thumbnail(self, raw_img, frame):
         """
         Generate the thumbnail in the upper right corner.
@@ -403,5 +390,3 @@ class ModeProcessor:
 
         return frame
 
-    def get_mode(self):
-        return self.hand_mode

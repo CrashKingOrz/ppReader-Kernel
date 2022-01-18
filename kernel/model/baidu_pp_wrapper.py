@@ -11,7 +11,7 @@ logger = get_logger()
 
 class PpDetection:
     # Object recognition
-    def __init__(self, device="GPU"):
+    def __init__(self, device="CPU"):
         """
         Initialize detection models.
 
