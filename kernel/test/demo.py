@@ -45,7 +45,7 @@ class PPReaderDemo:
                 index_finger_tip_x, index_finger_tip_y = self.pp_reader.get_index_finger_tip_axis(hand_landmarks.landmark)
                 self.image = self.pp_reader.draw_paw_box(self.image, hand_landmarks.landmark, handedness_list, hand_index)
 
-                self.image = self.pp_reader.mode_processor.execute_mode(handedness_list[hand_index],
+                self.image = self.pp_reader.mode_processor.mode_execute(handedness_list[hand_index],
                                                                         [index_finger_tip_x, index_finger_tip_y],
                                                                         self.image, frame_copy)
         return self.image
@@ -75,9 +75,6 @@ class PPReaderDemo:
             self.image.flags.writeable = True
             self.image = cv2.cvtColor(self.image, cv2.COLOR_RGB2BGR)
 
-            # read
-            # self.pp_reader.mode_processor.reader()
-
             # Todo: store thumbnail, this function need to realize this file
             if isinstance(self.pp_reader.mode_processor.last_thumb_img, np.ndarray):
                 self.image = self.pp_reader.mode_processor.generate_thumbnail(
@@ -102,6 +99,9 @@ class PPReaderDemo:
             cv2.namedWindow('PPReader', cv2.WINDOW_FREERATIO)
             cv2.imshow('PPReader', self.image)
             video_writer.write(self.image)
+
+            # read
+            self.pp_reader.mode_processor.reader()
 
             if cv2.waitKey(5) & 0xFF == 27:
                 break

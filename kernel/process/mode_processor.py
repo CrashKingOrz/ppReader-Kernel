@@ -6,8 +6,8 @@ import sys
 sys.path.insert(0, "../")
 from utils.info_generator import InfoGenerator
 from model.baidu_pp_wrapper import PpDetection, PpOCR
-# from multiprocessing import Process, Manager
-# from media.audio_processor import speak
+from multiprocessing import Process, Manager
+from media.audio_processor import speak
 
 
 class ModeProcessor:
@@ -43,11 +43,11 @@ class ModeProcessor:
         self.last_thumb_img = None
 
         # import the OCR class
-        self.pp_ocr = PpOCR(device="CPU")
+        self.pp_ocr = PpOCR(device="GPU")
         # ocr.test_ocr()
 
         # import the detection class
-        self.pp_dete = PpDetection(device="CPU")
+        self.pp_dete = PpDetection(device="GPU")
 
         # last results
         self.last_detect_res = {'detection': None, 'ocr': '无'}
