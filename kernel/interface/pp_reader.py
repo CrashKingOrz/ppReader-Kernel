@@ -11,7 +11,7 @@ from process.mode_processor import ModeProcessor
 
 
 class GetHandsInfo:
-    def __init__(self, window_w=960, window_h=720):
+    def __init__(self, device="GPU", window_w=960, window_h=720):
         # mediapip init
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_drawing_styles = mp.solutions.drawing_styles
@@ -19,7 +19,7 @@ class GetHandsInfo:
         # video or image window resize
         self.window_w = window_w
         self.window_h = window_h
-        self.mode_processor = ModeProcessor()
+        self.mode_processor = ModeProcessor(device)
         self.results = None
 
     def hands_model_process(self, frame, min_det_cof=0.7, min_trace_cof=0.5, max_num_hands=2):

@@ -108,7 +108,7 @@ class PPReaderDemo:
 
 
 if __name__ == '__main__':
-    pp_reader = PPReaderDemo(0)
+    pp_reader = PPReaderDemo(0, "CPU")
     pp_reader.generate_pp_reader()
 
 

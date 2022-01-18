@@ -11,7 +11,7 @@ from media.audio_processor import speak
 
 
 class ModeProcessor:
-    def __init__(self, float_distance=10, activate_duration=0.3, single_dete_duration=1):
+    def __init__(self, device="GPU", float_distance=10, activate_duration=0.3, single_dete_duration=1):
         # mode: double(double hands), single(right hand), None(no hand)
         self.hand_mode = 'None'
         self.hand_num = 0
@@ -43,11 +43,11 @@ class ModeProcessor:
         self.last_thumb_img = None
 
         # import the OCR class
-        self.pp_ocr = PpOCR(device="GPU")
+        self.pp_ocr = PpOCR(device=device)
         # ocr.test_ocr()
 
         # import the detection class
-        self.pp_dete = PpDetection(device="GPU")
+        self.pp_dete = PpDetection(device=device)
 
         # last results
         self.last_detect_res = {'detection': None, 'ocr': '无'}

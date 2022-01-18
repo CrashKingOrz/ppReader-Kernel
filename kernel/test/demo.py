@@ -10,12 +10,12 @@ from media.video_processor import get_video_stream, get_mp4_video_writer, frame_
 
 
 class PPReaderDemo:
-    def __init__(self, video_path, window_w=960, window_h=720, out_fps=18):
+    def __init__(self, video_path, device, window_w=960, window_h=720, out_fps=18):
         self.window_w = window_w
         self.window_h = window_h
         self.out_fps = out_fps
         self.video_cap = get_video_stream(video_path)
-        self.pp_reader = GetHandsInfo(window_w, window_h)
+        self.pp_reader = GetHandsInfo(device, window_w, window_h)
         self.image = None
 
     def frame_processor(self):
@@ -109,7 +109,7 @@ class PPReaderDemo:
 
 
 if __name__ == '__main__':
-    pp_reader = PPReaderDemo(0)
+    pp_reader = PPReaderDemo(0, "CPU")
     pp_reader.generate_pp_reader()
 
 

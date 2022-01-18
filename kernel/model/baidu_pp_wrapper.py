@@ -31,7 +31,7 @@ class PpDetection:
         if 1:
             print('Warm up detection model')
             img = np.random.uniform(0, 255, [640, 640, 3]).astype(np.uint8)
-            for i in range(10):
+            for i in range(3):
                 im, results = self.detect_img(img)
       
     def get_label_zh(self):
