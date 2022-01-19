@@ -8,3 +8,4 @@ kernel/__pycache__
 kernel/test/*.jpg
 *.pyc
 kernel/test/record/
+*.jpg

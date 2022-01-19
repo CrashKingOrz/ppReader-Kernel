@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import sys
 import logging
-sys.path.insert(0, "../")
+sys.path.insert(0, "kernel")
 
 from interface.pp_reader import GetHandsInfo, get_fps_text
 from media.video_processor import get_video_stream, get_mp4_video_writer, frame_operation

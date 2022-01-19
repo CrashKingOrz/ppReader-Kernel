@@ -38,12 +38,12 @@ class PPWrapperTest:
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
 
-    def test_ocr(self):
+    def test_ocr(self, input_path):
         """
         test ocr read image text
 
         """
-        image_dir = "../../images/icon/ppreader-banner.png"
+        image_dir = input_path
         img = cv2.imread(image_dir)
         src_im, text_list = self.pp_ocr_test.ocr_image(img)
         print(text_list)
@@ -52,5 +52,5 @@ class PPWrapperTest:
 
 if __name__ == '__main__':
     pp_wrapper_test = PPWrapperTest()
-    pp_wrapper_test.test_ocr()
+    pp_wrapper_test.test_ocr(input_path="../../sample/test.png")
     pp_wrapper_test.test_predict_video(0)
