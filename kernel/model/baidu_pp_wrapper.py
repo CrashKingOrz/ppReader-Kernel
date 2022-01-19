@@ -1,11 +1,11 @@
 import numpy as np
 import cv2
 
-from model.baidu_pp_ocr.tools.infer import utility
-from model.baidu_pp_detection.python.infer import Config, Detector
-from model.baidu_pp_detection.python.visualize import visualize_box_mask, lmk2out
-from model.baidu_pp_ocr.tools.infer.predict_system import TextSystem
-from model.baidu_pp_ocr.ppocr.utils.logging import get_logger
+from kernel.model.baidu_pp_ocr.tools.infer import utility
+from kernel.model.baidu_pp_detection.python.infer import Config, Detector
+from kernel.model.baidu_pp_detection.python.visualize import visualize_box_mask, lmk2out
+from kernel.model.baidu_pp_ocr.tools.infer.predict_system import TextSystem
+from kernel.model.baidu_pp_ocr.ppocr.utils.logging import get_logger
 logger = get_logger()
 
 
