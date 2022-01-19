@@ -1,11 +1,11 @@
 import numpy as np
 import cv2
 
-from model.baidu_pp_ocr.tools.infer import utility
-from model.baidu_pp_detection.python.infer import Config, Detector
-from model.baidu_pp_detection.python.visualize import visualize_box_mask, lmk2out
-from model.baidu_pp_ocr.tools.infer.predict_system import TextSystem
-from model.baidu_pp_ocr.ppocr.utils.logging import get_logger
+from kernel.model.baidu_pp_ocr.tools.infer import utility
+from kernel.model.baidu_pp_detection.python.infer import Config, Detector
+from kernel.model.baidu_pp_detection.python.visualize import visualize_box_mask, lmk2out
+from kernel.model.baidu_pp_ocr.tools.infer.predict_system import TextSystem
+from kernel.model.baidu_pp_ocr.ppocr.utils.logging import get_logger
 logger = get_logger()
 
 
@@ -16,7 +16,7 @@ class PpDetection:
         Initialize detection models.
 
         """
-        self.model_dir = '../model/baidu_pp_detection/models/cascade_rcnn_dcn_r101_vd_fpn_gen_server_side'
+        self.model_dir = 'kernel/model/baidu_pp_detection/models/cascade_rcnn_dcn_r101_vd_fpn_gen_server_side'
         config = Config(self.model_dir)
         self.labels_en = config.labels
         self.labels_zh = self.get_label_zh()
@@ -75,9 +75,9 @@ class PpOCR:
 
         """   
         args = utility.parse_args()
-        args.det_model_dir = "../model/baidu_pp_ocr/models/ch_PP-OCRv2_det_infer/"
-        args.rec_model_dir = "../model/baidu_pp_ocr/models/ch_PP-OCRv2_rec_infer/"
-        args.rec_char_dict_path = "../model/baidu_pp_ocr/ppocr/utils/ppocr_keys_v1.txt"
+        args.det_model_dir = "kernel/model/baidu_pp_ocr/models/ch_PP-OCRv2_det_infer/"
+        args.rec_model_dir = "kernel/model/baidu_pp_ocr/models/ch_PP-OCRv2_rec_infer/"
+        args.rec_char_dict_path = "kernel/model/baidu_pp_ocr/ppocr/utils/ppocr_keys_v1.txt"
         args.use_angle_cls = False
         self.text_sys = TextSystem(args)
 

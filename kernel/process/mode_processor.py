@@ -4,8 +4,8 @@ import time
 import math
 import sys
 sys.path.insert(0, "../")
-from utils.info_generator import InfoGenerator
-from model.baidu_pp_wrapper import PpDetection, PpOCR
+from kernel.utils.info_generator import InfoGenerator
+from kernel.model.baidu_pp_wrapper import PpDetection, PpOCR
 # from multiprocessing import Process, Manager
 # from media.audio_processor import speak
 

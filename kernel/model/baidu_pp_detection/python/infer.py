@@ -31,8 +31,8 @@ import cv2
 import numpy as np
 import paddle
 import paddle.fluid as fluid
-from model.baidu_pp_detection.python.preprocess import preprocess, Resize, Normalize, Permute, PadStride
-from model.baidu_pp_detection.python.visualize import visualize_box_mask, lmk2out
+from kernel.model.baidu_pp_detection.python.preprocess import preprocess, Resize, Normalize, Permute, PadStride
+from kernel.model.baidu_pp_detection.python.visualize import visualize_box_mask, lmk2out
 
 # Global dictionary
 SUPPORT_MODELS = {

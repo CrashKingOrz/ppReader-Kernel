@@ -9,11 +9,11 @@ import cv2
 import copy
 import numpy as np
 import logging
-import model.baidu_pp_ocr.tools.infer.utility as utility
-import model.baidu_pp_ocr.tools.infer.predict_rec as predict_rec
-import model.baidu_pp_ocr.tools.infer.predict_det as predict_det
-import model.baidu_pp_ocr.tools.infer.predict_cls as predict_cls
-from model.baidu_pp_ocr.ppocr.utils.logging import get_logger
+import kernel.model.baidu_pp_ocr.tools.infer.utility as utility
+import kernel.model.baidu_pp_ocr.tools.infer.predict_rec as predict_rec
+import kernel.model.baidu_pp_ocr.tools.infer.predict_det as predict_det
+import kernel.model.baidu_pp_ocr.tools.infer.predict_cls as predict_cls
+from kernel.model.baidu_pp_ocr.ppocr.utils.logging import get_logger
 from utility import get_rotate_crop_image
 logger = get_logger()
 
@@ -95,9 +95,9 @@ def sorted_boxes(dt_boxes):
 def main():
     args = utility.parse_args()
     args.image_dir="../../doc/imgs/11.jpg" 
-    args.det_model_dir= "../../models/ch_PP-OCRv2_det_infer/"
-    args.rec_model_dir= "../../models/ch_PP-OCRv2_rec_infer/"
-    args.rec_char_dict_path= "../../ppocr/utils/ppocr_keys_v1.txt"
+    args.det_model_dir= "../../../../../kernel/model/baidu_pp_ocr/models/ch_PP-OCRv2_det_infer/"
+    args.rec_model_dir= "../../../../../kernel/model/baidu_pp_ocr/models/ch_PP-OCRv2_rec_infer/"
+    args.rec_char_dict_path= "../../../../../kernel/model/baidu_pp_ocr/ppocr/utils/ppocr_keys_v1.txt"
     args.use_angle_cls=False 
     args.use_gpu=True
 

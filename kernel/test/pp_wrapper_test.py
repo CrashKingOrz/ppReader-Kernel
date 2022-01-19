@@ -43,7 +43,7 @@ class PPWrapperTest:
         test ocr read image text
 
         """
-        image_dir = "../../images/icon/ppreader-banner.png"
+        image_dir = "../../images/icon/test.png"
         img = cv2.imread(image_dir)
         src_im, text_list = self.pp_ocr_test.ocr_image(img)
         print(text_list)

@@ -4,10 +4,10 @@ import cv2
 import logging
 import mediapipe as mp
 import sys
-sys.path.insert(0, "../")
+# sys.path.insert(0, "../")
 # Todo: PPOCR and PPDetection need call from model process class
-from model.baidu_pp_wrapper import PpDetection, PpOCR
-from process.mode_processor import ModeProcessor
+from kernel.model.baidu_pp_wrapper import PpDetection, PpOCR
+from kernel.process.mode_processor import ModeProcessor
 
 
 class GetHandsInfo:
