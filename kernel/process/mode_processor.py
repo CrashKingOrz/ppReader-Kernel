@@ -357,6 +357,7 @@ class ModeProcessor:
     # do nothing
     def none_mode(self):
         self.hand_mode = 'None'
+        self.hand_num = 0
         # self.last_thumb_img = None
 
     # Reset some variable used in the mode

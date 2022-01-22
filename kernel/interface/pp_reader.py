@@ -11,30 +11,27 @@ from kernel.process.mode_processor import ModeProcessor
 
 
 class GetHandsInfo:
-    def __init__(self, device="CPU", window_w=960, window_h=720):
+    def __init__(self, device="CPU", window_w=960, window_h=720, min_det_cof=0.7, min_trace_cof=0.5, max_num_hands=2):
         # mediapip init
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_drawing_styles = mp.solutions.drawing_styles
         self.mp_hands = mp.solutions.hands
+        self.hands = self.mp_hands.Hands(min_detection_confidence=min_det_cof,
+                                         min_tracking_confidence=min_trace_cof,
+                                         max_num_hands=max_num_hands)
         # video or image window resize
         self.window_w = window_w
         self.window_h = window_h
         self.mode_processor = ModeProcessor(device)
         self.results = None
 
-    def hands_model_process(self, frame, min_det_cof=0.7, min_trace_cof=0.5, max_num_hands=2):
+    def hands_model_process(self, frame):
         """
         Process Kernel hands model to get its result.
 
         @param frame: the input image or frame
-        @param min_det_cof: 0 ~ 1
-        @param min_trace_cof: 0 ~ 1
-        @param max_num_hands: the number of max detection hands
         """
-        hands = self.mp_hands.Hands(min_detection_confidence=min_det_cof,
-                                    min_tracking_confidence=min_trace_cof,
-                                    max_num_hands=max_num_hands)
-        self.results = hands.process(frame)
+        self.results = self.hands.process(frame)
         # return self.results
 
     @staticmethod

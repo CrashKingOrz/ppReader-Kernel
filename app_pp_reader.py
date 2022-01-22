@@ -33,12 +33,6 @@ class PPReaderDemo:
 
                 # Label fingers
                 self.pp_reader.draw_hands_mark(self.image, hand_landmarks)
-                # self.pp_reader.mp_drawing.draw_landmarks(
-                #     frame,
-                #     hand_landmarks,
-                #     self.pp_reader.mp_hands.HAND_CONNECTIONS,
-                #     self.pp_reader.mp_drawing_styles.get_default_hand_landmarks_style(),
-                #     self.pp_reader.mp_drawing_styles.get_default_hand_connections_style())
 
                 index_finger_tip_x, index_finger_tip_y = self.pp_reader.get_index_finger_tip_axis(hand_landmarks.landmark)
                 self.image = self.pp_reader.draw_paw_box(self.image, hand_landmarks.landmark, handedness_list, hand_index)
@@ -46,6 +40,8 @@ class PPReaderDemo:
                 self.image = self.pp_reader.mode_processor.mode_execute(handedness_list[hand_index],
                                                                         [index_finger_tip_x, index_finger_tip_y],
                                                                         self.image, frame_copy)
+        else:
+            self.pp_reader.mode_processor.none_mode()
         return self.image
 
     def generate_pp_reader(self):
@@ -109,7 +105,7 @@ class PPReaderDemo:
 
 
 if __name__ == '__main__':
-    pp_reader = PPReaderDemo(0, "GPU")
+    pp_reader = PPReaderDemo(0, "CPU")
     pp_reader.generate_pp_reader()
 
 
