@@ -2,16 +2,15 @@ import cv2
 import numpy as np
 import time
 import math
-import sys
-sys.path.insert(0, "../")
-from utils.info_generator import InfoGenerator
-from model.baidu_pp_wrapper import PpDetection, PpOCR
+
+from kernel.utils.info_generator import InfoGenerator
+from kernel.model.baidu_pp_wrapper import PpDetection, PpOCR
 from multiprocessing import Process, Manager
-from media.audio_processor import speak
+from kernel.media.audio_processor import speak
 
 
 class ModeProcessor:
-    def __init__(self, device="GPU", float_distance=10, activate_duration=0.3, single_dete_duration=1):
+    def __init__(self, device="CPU", float_distance=10, activate_duration=0.3, single_dete_duration=1):
         # mode: double(double hands), single(right hand), None(no hand)
         self.hand_mode = 'None'
         self.hand_num = 0
@@ -332,15 +331,6 @@ class ModeProcessor:
 
                         # the rectangle of the palm
                         frame = cv2.rectangle(frame, rect_l, rect_r, (0, 255, 0), 2)
-                        # frame = np.array(frame)
-
-                        # label box
-                        # if self.last_detect_res['detection']:
-                        #     # generate the label
-                        #     x, y, w, h = self.last_finger_cord_x['Left'], (
-                        #                 self.last_finger_cord_y['Left'] - 50), 120, 50
-                        #     frame[y:y + h, x:x + w] = self.generator.generate_label_area(
-                        #         '{label_zh}'.format(label_zh=self.last_detect_res['detection'][0]), x, y, w, h, frame)
 
                         if self.last_thumb_img is None:
                             self.last_detect_res = {'detection': None, 'ocr': '无'}

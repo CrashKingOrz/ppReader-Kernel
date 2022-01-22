@@ -1,8 +1,7 @@
 import sys
 import cv2
 
-sys.path.insert(0, "../")
-from model.baidu_pp_wrapper import PpDetection, PpOCR
+from kernel.model.baidu_pp_wrapper import PpDetection, PpOCR
 
 
 class PPWrapperTest:

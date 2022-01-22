@@ -4,14 +4,14 @@ import cv2
 import logging
 import mediapipe as mp
 import sys
-# sys.path.insert(0, "../")
+
 # Todo: PPOCR and PPDetection need call from model process class
 from kernel.model.baidu_pp_wrapper import PpDetection, PpOCR
 from kernel.process.mode_processor import ModeProcessor
 
 
 class GetHandsInfo:
-    def __init__(self, device="GPU", window_w=960, window_h=720):
+    def __init__(self, device="CPU", window_w=960, window_h=720):
         # mediapip init
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_drawing_styles = mp.solutions.drawing_styles
