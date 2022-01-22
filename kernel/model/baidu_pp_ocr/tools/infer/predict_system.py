@@ -95,9 +95,9 @@ def sorted_boxes(dt_boxes):
 def main():
     args = utility.parse_args()
     args.image_dir="../../doc/imgs/11.jpg" 
-    args.det_model_dir= "../../../../../kernel/model/baidu_pp_ocr/models/ch_PP-OCRv2_det_infer/"
-    args.rec_model_dir= "../../../../../kernel/model/baidu_pp_ocr/models/ch_PP-OCRv2_rec_infer/"
-    args.rec_char_dict_path= "../../../../../kernel/model/baidu_pp_ocr/ppocr/utils/ppocr_keys_v1.txt"
+    args.det_model_dir= "../../models/ch_PP-OCRv2_det_infer/"
+    args.rec_model_dir= "../../models/ch_PP-OCRv2_rec_infer/"
+    args.rec_char_dict_path= "../../ppocr/utils/ppocr_keys_v1.txt"
     args.use_angle_cls=False 
     args.use_gpu=True
 
