@@ -31,7 +31,7 @@ class PpDetection:
         if 1:
             print('Warm up detection model')
             img = np.random.uniform(0, 255, [640, 640, 3]).astype(np.uint8)
-            for i in range(3):
+            for i in range(2):
                 im, results = self.detect_img(img)
       
     def get_label_zh(self):
@@ -93,7 +93,7 @@ class PpOCR:
         if 1:
             print('Warm up ocr model')
             img = np.random.uniform(0, 255, [640, 640, 3]).astype(np.uint8)
-            for i in range(10):
+            for i in range(3):
                 res = self.text_sys(img)
     
     def ocr_image(self, img):
