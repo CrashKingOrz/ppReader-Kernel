@@ -16,7 +16,7 @@ class PpDetection:
         Initialize detection models.
 
         """
-        self.model_dir = 'kernel/model/baidu_pp_detection/models/cascade_rcnn_dcn_r101_vd_fpn_gen_server_side'
+        self.model_dir = './kernel/model/baidu_pp_detection/models/cascade_rcnn_dcn_r101_vd_fpn_gen_server_side'
         config = Config(self.model_dir)
         self.labels_en = config.labels
         self.labels_zh = self.get_label_zh()
@@ -31,7 +31,7 @@ class PpDetection:
         if 1:
             print('Warm up detection model')
             img = np.random.uniform(0, 255, [640, 640, 3]).astype(np.uint8)
-            for i in range(10):
+            for i in range(3):
                 im, results = self.detect_img(img)
       
     def get_label_zh(self):
@@ -75,9 +75,9 @@ class PpOCR:
 
         """   
         args = utility.parse_args()
-        args.det_model_dir = "kernel/model/baidu_pp_ocr/models/ch_PP-OCRv2_det_infer/"
-        args.rec_model_dir = "kernel/model/baidu_pp_ocr/models/ch_PP-OCRv2_rec_infer/"
-        args.rec_char_dict_path = "kernel/model/baidu_pp_ocr/ppocr/utils/ppocr_keys_v1.txt"
+        args.det_model_dir = "./kernel/model/baidu_pp_ocr/models/ch_PP-OCRv2_det_infer/"
+        args.rec_model_dir = "./kernel/model/baidu_pp_ocr/models/ch_PP-OCRv2_rec_infer/"
+        args.rec_char_dict_path = "./kernel/model/baidu_pp_ocr/ppocr/utils/ppocr_keys_v1.txt"
         args.use_angle_cls = False
         self.text_sys = TextSystem(args)
 

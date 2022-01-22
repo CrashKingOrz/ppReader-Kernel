@@ -1,21 +1,19 @@
 import time
 import cv2
 import numpy as np
-import sys
 import logging
-# sys.path.insert(0, "../")
 
 from kernel.interface.pp_reader import GetHandsInfo, get_fps_text
 from kernel.media.video_processor import get_video_stream, get_mp4_video_writer, frame_operation
 
 
 class PPReaderDemo:
-    def __init__(self, video_path, window_w=960, window_h=720, out_fps=18):
+    def __init__(self, video_path, device, window_w=960, window_h=720, out_fps=18):
         self.window_w = window_w
         self.window_h = window_h
         self.out_fps = out_fps
         self.video_cap = get_video_stream(video_path)
-        self.pp_reader = GetHandsInfo(window_w, window_h)
+        self.pp_reader = GetHandsInfo(device, window_w, window_h)
         self.image = None
 
     def frame_processor(self):
@@ -45,7 +43,7 @@ class PPReaderDemo:
                 index_finger_tip_x, index_finger_tip_y = self.pp_reader.get_index_finger_tip_axis(hand_landmarks.landmark)
                 self.image = self.pp_reader.draw_paw_box(self.image, hand_landmarks.landmark, handedness_list, hand_index)
 
-                self.image = self.pp_reader.mode_processor.execute_mode(handedness_list[hand_index],
+                self.image = self.pp_reader.mode_processor.mode_execute(handedness_list[hand_index],
                                                                         [index_finger_tip_x, index_finger_tip_y],
                                                                         self.image, frame_copy)
         return self.image
@@ -102,13 +100,16 @@ class PPReaderDemo:
             cv2.imshow('PPReader', self.image)
             video_writer.write(self.image)
 
+            # read
+            self.pp_reader.mode_processor.reader()
+
             if cv2.waitKey(5) & 0xFF == 27:
                 break
         self.video_cap.release()
 
 
 if __name__ == '__main__':
-    pp_reader = PPReaderDemo(0)
+    pp_reader = PPReaderDemo(0, "GPU")
     pp_reader.generate_pp_reader()
 
 
